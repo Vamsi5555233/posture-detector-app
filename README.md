@@ -37,9 +37,9 @@ Pose estimation is done using **MediaPipe** and each frame is evaluated based on
 
 ## 🚀 Deployment Links
 
-- 🔗 **Live App:** [https://your-frontend-link.vercel.app](https://your-frontend-link.vercel.app)
-- 🔗 **Backend API:** [https://your-backend-api.onrender.com](https://your-backend-api.onrender.com)
-- 🎥 **Demo Video:** [https://drive.google.com/your-demo-video-link](https://drive.google.com/your-demo-video-link)
+- 🔗 **Live App:**    https://posture-detector-kh866h4h8-vamsis-projects-38f3ecaf.vercel.app/
+- 🔗 **Backend API:** https://your-backend.up.railway.app (but it is crashing due to lack of support with OpenCV)
+- 🎥 **Demo Video:**  
 
 ---
 
