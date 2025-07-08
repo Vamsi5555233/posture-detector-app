@@ -40,5 +40,11 @@ def upload_video():
     else:
         return jsonify({"message": "Invalid file type"}), 400
 
+
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"message": "pong"})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
