@@ -1,0 +1,16 @@
+# Ignore virtual environment
+venv39/
+
+# Ignore environment variables
+.env
+
+# Ignore uploaded or recorded videos
+uploads/
+*.webm
+*.mp4
+*.avi
+*.mov
+
+# Ignore temporary files
+__pycache__/
+.DS_Store
