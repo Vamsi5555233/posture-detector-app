@@ -2,16 +2,28 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 
 function App() {
+  // Mode: either 'upload' or 'webcam'
   const [mode, setMode] = useState('upload');
+
+  // Selected video file (either uploaded or recorded)
   const [selectedFile, setSelectedFile] = useState(null);
+
+  // Message shown after upload (success/failure)
   const [uploadMessage, setUploadMessage] = useState('');
+
+  // Stores feedback from backend (list of bad posture frames)
   const [badFrames, setBadFrames] = useState([]);
+
+  // Preview URL for selected or recorded video
   const [videoPreview, setVideoPreview] = useState(null);
+
+  // States and refs for webcam recording
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
   const webcamRef = useRef(null);
   const recordedChunks = useRef([]);
 
+  // Toggle between 'upload' and 'webcam' mode
   const handleModeChange = (e) => {
     setMode(e.target.value);
     setUploadMessage('');
@@ -20,14 +32,16 @@ function App() {
     setVideoPreview(null);
   };
 
+  // Handle video file selection from local device
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
     setUploadMessage('');
     setBadFrames([]);
-    setVideoPreview(URL.createObjectURL(file));
+    setVideoPreview(URL.createObjectURL(file)); // show preview
   };
 
+  // Upload video to backend for posture analysis
   const handleUpload = async () => {
     if (!selectedFile) {
       setUploadMessage('Please select or record a video first.');
@@ -40,7 +54,6 @@ function App() {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/upload`, formData);
       const { feedback } = response.data;
-
       setBadFrames(feedback);
       setUploadMessage(`Upload successful. Bad posture detected in ${feedback.length} frame(s).`);
     } catch (error) {
@@ -49,6 +62,7 @@ function App() {
     }
   };
 
+  // Start webcam and begin recording
   const startRecording = async () => {
     setUploadMessage('');
     setBadFrames([]);
@@ -69,11 +83,13 @@ function App() {
       };
 
       mediaRecorder.onstop = () => {
+        // Convert recorded chunks to file and generate preview
         const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
         const file = new File([blob], 'recorded_video.webm', { type: 'video/webm' });
         setSelectedFile(file);
         setVideoPreview(URL.createObjectURL(blob));
 
+        // Stop webcam stream
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
       };
@@ -85,6 +101,7 @@ function App() {
     }
   };
 
+  // Stop the recording process
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -96,6 +113,7 @@ function App() {
     <div className="App" style={{ padding: '20px', fontFamily: 'Arial' }}>
       <h2>🪑 Bad Posture Detection App</h2>
 
+      {/* Mode selection: Upload or Webcam */}
       <div style={{ marginBottom: '15px' }}>
         <label>
           <input
@@ -117,10 +135,12 @@ function App() {
         </label>
       </div>
 
+      {/* Upload input */}
       {mode === 'upload' && (
         <input type="file" accept="video/*" onChange={handleFileChange} />
       )}
 
+      {/* Webcam video and record/stop buttons */}
       {mode === 'webcam' && (
         <div style={{ marginBottom: '15px' }}>
           <video
@@ -142,16 +162,19 @@ function App() {
         </div>
       )}
 
+      {/* Upload button */}
       <div style={{ marginTop: '10px' }}>
         <button onClick={handleUpload}>Upload</button>
       </div>
 
+      {/* Upload success/failure message */}
       {uploadMessage && (
         <div style={{ marginTop: '15px', fontWeight: 'bold', color: 'darkred' }}>
           {uploadMessage}
         </div>
       )}
 
+      {/* Display feedback for detected bad posture frames */}
       {badFrames.length > 0 && (
         <div style={{
           marginTop: '15px',
@@ -173,6 +196,7 @@ function App() {
         </div>
       )}
 
+      {/* Video playback preview */}
       {videoPreview && (
         <div style={{ marginTop: '20px' }}>
           <video width="480" controls>
