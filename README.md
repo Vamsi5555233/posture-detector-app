@@ -11,7 +11,7 @@ A simple full-stack posture analysis web app that helps users detect bad posture
 - **Pose Detection:** MediaPipe's Pose module
 - **Deployment Platforms:**  
   - Frontend: **Vercel**  
-  - Backend: **Render** *(note: OpenCV crashes due to libGL.so.1 issue on free tier)*
+  - Backend: **Railway** *(note: OpenCV crashes due to libGL.so.1 issue on free tier)*
 
 ---
 
