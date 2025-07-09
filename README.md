@@ -56,7 +56,7 @@ bad-posture-detector/
 │   └── uploads/
 └── README.md
 
-
+---
 
 ##  How to Run the Project Locally
 
